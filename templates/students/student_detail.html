@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Details - Admin{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-3 py-md-4">
+    <header class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2 mb-4">
+        <div>
+            <h1 class="h2 mb-1">Student Details</h1>
+            <p class="text-muted mb-0">{{ student.user.get_full_name|default:student.user.username }}</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'students:admin_student_edit' student.id %}" class="btn btn-outline-primary">
+                <i class="bi bi-pencil-square me-2" aria-hidden="true"></i>Edit Student
+            </a>
+            <a href="{% url 'students:admin_student_delete' student.id %}" class="btn btn-outline-danger">
+                <i class="bi bi-trash me-2" aria-hidden="true"></i>Delete Student
+            </a>
+            <a href="{% url 'students:admin_dashboard' %}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>Back to Dashboard
+            </a>
+        </div>
+    </header>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card theme-card">
+                <div class="card-header">
+                    <h2 class="h5 mb-0">
+                        <i class="bi bi-person-circle me-2" aria-hidden="true"></i>Student Information
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Student Photo -->
+                        <div class="col-4 text-center mb-3">
+                            {% if student.photo %}
+                            <img src="{{ student.photo.url }}" alt="Student Photo" 
+                                 class="rounded-circle border shadow-sm" 
+                                 style="width: 120px; height: 120px; object-fit: cover;">
+                            {% else %}
+                            <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center border" 
+                                 style="width: 120px; height: 120px;">
+                                <i class="bi bi-person-fill text-secondary" style="font-size: 3.5rem;"></i>
+                            </div>
+                            {% endif %}
+                            <p class="small text-muted mt-2 mb-0">Student Photo</p>
+                        </div>
+                        <!-- Profile Details -->
+                        <div class="col-8">
+                            <table class="table table-borderless table-sm mb-0">
+                                <tr>
+                                    <td class="text-muted" style="width: 40%;">Full Name:</td>
+                                    <td class="fw-semibold">{{ student.user.get_full_name|default:"Not provided" }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Username:</td>
+                                    <td>{{ student.user.username }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Email:</td>
+                                    <td>{{ student.user.email }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Phone:</td>
+                                    <td>{{ student.user.phone_number|default:"Not provided" }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <hr>
+                    <table class="table table-borderless table-sm mb-0">
+                        <tr>
+                            <td class="text-muted" style="width: 30%;">Passport No:</td>
+                            <td>{{ student.passport_number|default:"Not provided" }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">Address:</td>
+                            <td>{{ student.address|default:"Not provided" }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">Registered:</td>
+                            <td>{{ student.created_at|date:"F d, Y H:i" }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card theme-card">
+                <div class="card-header">
+                    <h2 class="h5 mb-0">
+                        <i class="bi bi-file-earmark-check me-2" aria-hidden="true"></i>Visa Status
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2"><span class="form-label">Current Status:</span></p>
+                    <p class="mb-3">
+                        <span class="badge bg-{{ student.get_status_display_class }} fs-6 px-3 py-2">
+                            {{ student.get_visa_status_display }}
+                        </span>
+                    </p>
+                    <hr>
+                    <form method="post" class="form-card">
+                        {% csrf_token %}
+                        <input type="hidden" name="update_status" value="1">
+                        <div class="mb-3">
+                            <label for="id_visa_status" class="form-label">Update status</label>
+                            <select name="visa_status" id="id_visa_status" class="form-select form-control" aria-describedby="id_visa_status_help">
+                                {% for value, label in status_form.visa_status.field.choices %}
+                                <option value="{{ value }}" {% if student.visa_status == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                            <div id="id_visa_status_help" class="form-text">Change will take effect immediately</div>
+                            {% if status_form.visa_status.errors %}<div class="invalid-feedback d-block">{{ status_form.visa_status.errors.0 }}</div>{% endif %}
+                        </div>
+                        <button type="submit" name="submit" class="btn btn-primary">Update Status</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="row" id="documents" aria-labelledby="documents-heading">
+        <div class="col-12">
+            <div class="card theme-card">
+                <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <h2 id="documents-heading" class="h5 mb-0">
+                        <i class="bi bi-files me-2" aria-hidden="true"></i>Documents
+                    </h2>
+                    <a href="{% url 'documents:admin_upload' student.id %}" class="btn btn-sm btn-primary">
+                        <i class="bi bi-cloud-upload me-1"></i>Upload Document for Student
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if documents %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Document Type</th>
+                                    <th>Title</th>
+                                    <th>File Name</th>
+                                    <th>Size</th>
+                                    <th>Uploaded By</th>
+                                    <th>Uploaded At</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for doc in documents %}
+                                <tr>
+                                    <td>
+                                        <span class="badge bg-info">{{ doc.get_document_type_display }}</span>
+                                    </td>
+                                    <td>{{ doc.title|default:"—" }}</td>
+                                    <td>
+                                        <i class="bi bi-file-earmark me-1"></i>{{ doc.filename }}
+                                    </td>
+                                    <td>{{ doc.file_size }} KB</td>
+                                    <td>
+                                        {% if doc.is_uploaded_by_admin %}
+                                            <span class="badge bg-warning">Admin</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Student</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ doc.uploaded_at|date:"M d, Y H:i" }}</td>
+                                    <td>
+                                        <a href="{% url 'documents:view' doc.id %}" class="btn btn-sm btn-outline-primary" title="View Document">
+                                            <i class="bi bi-eye"></i> View
+                                        </a>
+                                        <a href="{% url 'documents:delete' doc.id %}" class="btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="bi bi-inbox text-muted" style="font-size: 3rem;" aria-hidden="true"></i>
+                        <p class="text-muted mt-3">No documents uploaded yet.</p>
+                        <a href="{% url 'documents:admin_upload' student.id %}" class="btn btn-primary">
+                            <i class="bi bi-cloud-upload me-2" aria-hidden="true"></i>Upload Document
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

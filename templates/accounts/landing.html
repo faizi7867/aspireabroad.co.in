@@ -1,0 +1,141 @@
+{% extends "accounts/accountbase.html" %}
+{% load static %}
+
+{% block title %}Aspire Abroad – MBBS Visa{% endblock %}
+
+{% block content %}
+  <section class="hero-accounts" id="home" aria-labelledby="hero-heading">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-7">
+          <p class="text-uppercase fw-semibold mb-2 opacity-90" style="letter-spacing: 0.15em;">Aspire abroad with us</p>
+          <h1 id="hero-heading" class="display-5 fw-bold mb-3">Your gateway to MBBS in Russia</h1>
+          <p class="lead mb-4">
+            Aspire Abroad is the official representative of Far Eastern Federal University (FEFU). We guide you through admission and visa with full transparency—no hidden fees, no extra charges.
+          </p>
+          <div class="d-flex flex-wrap gap-2 gap-md-3">
+            <a href="{% url 'accounts:register' %}" class="btn btn-light btn-lg px-4 py-3 fw-semibold">
+              <i class="bi bi-person-plus me-2" aria-hidden="true"></i>Get started
+            </a>
+            <a href="{% url 'accounts:login' %}" class="btn btn-outline-light btn-lg px-4 py-3 fw-semibold">
+              <i class="bi bi-box-arrow-in-right me-2" aria-hidden="true"></i>Login
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-5 text-center d-none d-lg-block mt-4 mt-lg-0">
+          <img src="{% static 'images/logo.jpeg' %}" alt="" width="280" height="280" class="rounded-circle object-fit-cover">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5" id="features" aria-labelledby="features-heading">
+    <div class="container py-4">
+      <h2 id="features-heading" class="text-center fw-bold mb-2">How it works</h2>
+      <p class="text-center text-muted mx-auto mb-4" style="max-width: 36rem;">Register once, upload documents, and track your visa status in one place.</p>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <article class="feature-card">
+            <div class="feature-icon mb-3"><i class="bi bi-person-plus-fill" aria-hidden="true"></i></div>
+            <h3 class="h6 fw-semibold mb-2">Register</h3>
+            <p class="small text-muted mb-0">Create your account with basic details. Quick and secure.</p>
+          </article>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <article class="feature-card">
+            <div class="feature-icon mb-3"><i class="bi bi-file-earmark-arrow-up" aria-hidden="true"></i></div>
+            <h3 class="h6 fw-semibold mb-2">Upload documents</h3>
+            <p class="small text-muted mb-0">Marksheets, Aadhaar, PAN and other required documents.</p>
+          </article>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <article class="feature-card">
+            <div class="feature-icon mb-3"><i class="bi bi-shield-check" aria-hidden="true"></i></div>
+            <h3 class="h6 fw-semibold mb-2">Verification</h3>
+            <p class="small text-muted mb-0">Our team verifies your documents and updates status.</p>
+          </article>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <article class="feature-card">
+            <div class="feature-icon mb-3"><i class="bi bi-graph-up-arrow" aria-hidden="true"></i></div>
+            <h3 class="h6 fw-semibold mb-2">Track status</h3>
+            <p class="small text-muted mb-0">From registered to approved—see progress anytime.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5 bg-light" id="about" aria-labelledby="about-heading">
+    <div class="container py-4">
+      <h2 id="about-heading" class="text-center fw-bold mb-2">Why Aspire Abroad</h2>
+      <p class="text-center text-muted mx-auto mb-4" style="max-width: 36rem;">Official FEFU representative with power of attorney. We focus on clarity and support.</p>
+      <div class="row g-4 justify-content-center">
+        <div class="col-md-6 col-lg-4">
+          <div class="d-flex align-items-start gap-3">
+            <i class="bi bi-check-circle-fill text-success flex-shrink-0 mt-1" style="font-size: 1.25rem;" aria-hidden="true"></i>
+            <div>
+              <h3 class="h6 fw-semibold mb-1">Transparent process</h3>
+              <p class="small text-muted mb-0">No hidden or miscellaneous charges. What you see is what you pay.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="d-flex align-items-start gap-3">
+            <i class="bi bi-check-circle-fill text-success flex-shrink-0 mt-1" style="font-size: 1.25rem;" aria-hidden="true"></i>
+            <div>
+              <h3 class="h6 fw-semibold mb-1">Official partner</h3>
+              <p class="small text-muted mb-0">Authorised FEFU representative with power of attorney.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="d-flex align-items-start gap-3">
+            <i class="bi bi-check-circle-fill text-success flex-shrink-0 mt-1" style="font-size: 1.25rem;" aria-hidden="true"></i>
+            <div>
+              <h3 class="h6 fw-semibold mb-1">Dedicated support</h3>
+              <p class="small text-muted mb-0">Admin team for document checks and status updates.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5" aria-labelledby="proof-heading">
+    <div class="container py-4">
+      <h2 id="proof-heading" class="text-center fw-bold mb-4">Trusted by students</h2>
+      <div class="row g-4 text-center">
+        <div class="col-6 col-md-3">
+          <p class="proof-value mb-1">FEFU</p>
+          <p class="small text-muted mb-0">Official partner</p>
+        </div>
+        <div class="col-6 col-md-3">
+          <p class="proof-value mb-1">0</p>
+          <p class="small text-muted mb-0">Hidden fees</p>
+        </div>
+        <div class="col-6 col-md-3">
+          <p class="proof-value mb-1">Secure</p>
+          <p class="small text-muted mb-0">Document handling</p>
+        </div>
+        <div class="col-6 col-md-3">
+          <p class="proof-value mb-1">24/7</p>
+          <p class="small text-muted mb-0">Status tracking</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner" aria-labelledby="cta-heading">
+    <div class="container text-center">
+      <h2 id="cta-heading" class="h4 fw-bold mb-2">Ready to start your MBBS journey?</h2>
+      <p class="mb-4 opacity-90">Register now and submit your documents for visa processing.</p>
+      <a href="{% url 'accounts:register' %}" class="btn btn-light btn-lg px-4 py-3 fw-semibold me-2">
+        <i class="bi bi-person-plus me-2" aria-hidden="true"></i>Sign up
+      </a>
+      <a href="{% url 'accounts:login' %}" class="btn btn-outline-light btn-lg px-4 py-3 fw-semibold">
+        <i class="bi bi-box-arrow-in-right me-2" aria-hidden="true"></i>Login
+      </a>
+    </div>
+  </section>
+{% endblock %}
