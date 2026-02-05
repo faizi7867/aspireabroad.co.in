@@ -174,14 +174,11 @@ PASSWORD_RESET_MAX_PER_IP_PER_HOUR = int(config('PASSWORD_RESET_MAX_PER_IP_PER_H
 SEND_EMAIL_ENABLED = config('SEND_EMAIL_ENABLED', default=True, cast=bool)
 SEND_SMS_ENABLED = config('SEND_SMS_ENABLED', default=False, cast=bool)
 
-# Email Settings
-import render
-RESEND_API_KEY = os.getenv("RESEND_API_KEY")
-resend.api_key = RESEND_API_KEY
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "onboarding@resend.dev")
-EMAIL_USE_TLS = True            # TLS for port 587
-EMAIL_USE_SSL = False    
+# Email Settings (Resend SDK Custom Backend)
+EMAIL_BACKEND = "mbbs_visa.resend_backend.ResendBackend" 
+RESEND_API_KEY = config('RESEND_API_KEY')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='onboarding@resend.dev')
+
+# Legacy/Unused SMTP Settings (Kept for reference but inactive due to EMAIL_BACKEND)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
-DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default=EMAIL_HOST_USER)
-EMAIL_TIMEOUT = 30
