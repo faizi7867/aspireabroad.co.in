@@ -175,9 +175,10 @@ SEND_EMAIL_ENABLED = config('SEND_EMAIL_ENABLED', default=True, cast=bool)
 SEND_SMS_ENABLED = config('SEND_SMS_ENABLED', default=False, cast=bool)
 
 # Email Settings
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
-EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+import render
+RESEND_API_KEY = os.getenv("RESEND_API_KEY")
+resend.api_key = RESEND_API_KEY
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "onboarding@resend.dev")
 EMAIL_USE_TLS = True            # TLS for port 587
 EMAIL_USE_SSL = False    
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
