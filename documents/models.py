@@ -4,6 +4,7 @@ Document Model for file uploads
 from django.db import models
 from django.conf import settings
 import os
+from cloudinary_storage.storage import MediaCloudinaryStorage
 
 
 def document_upload_path(instance, filename):
@@ -39,6 +40,9 @@ class Document(models.Model):
     )
     file = models.FileField(
         upload_to=document_upload_path,
+        storage= MediaCloudinaryStorage(),
+         blank=True,
+        null=True,
         help_text='Upload document file'
     )
     title = models.CharField(
