@@ -16,6 +16,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.utils import timezone
 from django.core.cache import cache
+
 from .forms import (
     StudentRegistrationForm,
     LoginForm,
@@ -23,7 +24,10 @@ from .forms import (
     ForgotPasswordForm,
     ForceChangePasswordForm,
 )
-from .models import User, PasswordResetAuditLog
+
+from .models import User, PasswordResetAuditLog         
+from cloudinary_storage.storage import MediaCloudinaryStorage
+
 from .notifications import send_email, send_sms
 
 logger = logging.getLogger(__name__)

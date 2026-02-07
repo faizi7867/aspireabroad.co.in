@@ -5,6 +5,7 @@ Stores additional information for students
 from django.db import models
 from django.conf import settings
 from django.core.validators import RegexValidator
+from cloudinary_storage.storage import MediaCloudinaryStorage
 
 
 def student_photo_path(instance, filename):
@@ -32,6 +33,7 @@ class StudentProfile(models.Model):
     )
     photo = models.ImageField(
         upload_to=student_photo_path,
+        storage=MediaCloudinaryStorage(),
         blank=True,
         null=True,
         help_text='Student passport-size photo'
