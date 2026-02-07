@@ -12,5 +12,6 @@ sqlparse==0.5.5
 tzdata==2025.3
 whitenoise==6.5.0
 resend
-cloudinary==1.35.0
-django-cloudinary-storage==1.13.0
+cloudinary
+django-cloudinary-storage
+
