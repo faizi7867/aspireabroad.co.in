@@ -10,6 +10,7 @@ import os
 from .models import Document
 from .forms import DocumentUploadForm, AdminDocumentUploadForm
 from students.models import StudentProfile
+import cloudinary.utils
 
 
 def is_admin(user):
@@ -28,7 +29,7 @@ def document_upload(request):
     if request.method == 'POST':
         form = DocumentUploadForm(
             request.POST,
-            request.FILES,
+            request.FILES or None,
             student=request.user,
             uploaded_by=request.user
         )
@@ -64,11 +65,11 @@ def admin_document_upload(request, student_id):
     if request.method == 'POST':
         form = AdminDocumentUploadForm(
             request.POST,
-            request.FILES,
+            request.FILES or None,
             student=student,
             uploaded_by=request.user
         )
-        if form.is_valid():
+        if form.is_valid(): 
             form.save()
             messages.success(
                 request,
@@ -132,27 +133,23 @@ def document_download(request, document_id):
         messages.error(request, 'You do not have permission to access this document.')
         return redirect('students:dashboard')
     
-    # Serve file (works with default FileSystemStorage and other backends)
+    # Serve file
     if not document.file:
         messages.error(request, 'File not found.')
         return redirect('students:dashboard')
-    try:
-        file_path = getattr(document.file, 'path', None)
-        if file_path and os.path.exists(file_path):
-            response = FileResponse(
-                open(file_path, 'rb'),
-                content_type='application/octet-stream'
-            )
-        else:
-            response = FileResponse(
-                document.file.open('rb'),
-                content_type='application/octet-stream'
-            )
-        response['Content-Disposition'] = f'attachment; filename="{document.filename()}"'
-        return response
-    except Exception as e:
-        messages.error(request, f'Error downloading file: {str(e)}')
-        return redirect('students:dashboard')
+    
+    # Redirect to Cloudinary URL with attachment flag to bypass some restrictions
+    
+    # Determine resource type
+    filename = document.filename().lower()
+    resource_type = 'raw' if filename.endswith('.pdf') else 'image'
+    
+    url, options = cloudinary.utils.cloudinary_url(
+        document.file.name,
+        resource_type=resource_type,
+        flags="attachment"
+    )
+    return redirect(url)
 
 
 @login_required

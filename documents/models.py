@@ -5,9 +5,10 @@ from django.db import models
 from django.conf import settings
 import os
 from cloudinary_storage.storage import RawMediaCloudinaryStorage
+from django.core.validators import FileExtensionValidator
+from cloudinary.models import CloudinaryField 
 
-
-def document_upload_path(instance, filename):
+def     document_upload_path(instance, filename):
     """
     Generate upload path for documents
     Format: documents/{student_username}/{document_type}/{filename}
@@ -40,10 +41,11 @@ class Document(models.Model):
     )
     file = models.FileField(
         upload_to=document_upload_path,
-        storage= RawMediaCloudinaryStorage(),
-         blank=True,
+        storage=RawMediaCloudinaryStorage(),
+        blank=True,
         null=True,
-        help_text='Upload document file'
+        validators=[FileExtensionValidator(allowed_extensions=['pdf', 'jpg', 'jpeg', 'png'])],
+        help_text='Upload document file (PDF, JPG, PNG)'
     )
     title = models.CharField(
         max_length=255,

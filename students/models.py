@@ -6,6 +6,7 @@ from django.db import models
 from django.conf import settings
 from django.core.validators import RegexValidator
 from cloudinary_storage.storage import MediaCloudinaryStorage
+from django.core.validators import FileExtensionValidator
 
 
 def student_photo_path(instance, filename):
@@ -36,7 +37,8 @@ class StudentProfile(models.Model):
         storage=MediaCloudinaryStorage(),
         blank=True,
         null=True,
-        help_text='Student passport-size photo'
+        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])],
+        help_text='Student passport-size photo (JPG, PNG)'
     )
     passport_number = models.CharField(
         max_length=20,

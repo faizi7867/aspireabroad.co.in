@@ -31,6 +31,19 @@ class DocumentUploadForm(forms.ModelForm):
             'title',
             Submit('submit', 'Upload Document', css_class='btn btn-primary mt-3')
         )
+
+    def clean_file(self):
+        file = self.cleaned_data.get('file')
+        if file:
+            # Check extension
+            ext = file.name.split('.')[-1].lower()
+            if ext not in ['pdf', 'jpg', 'jpeg', 'png']:
+                raise forms.ValidationError(f'Unsupported file extension: {ext}. Allowed: pdf, jpg, jpeg, png')
+            
+            # Check size (10MB)
+            if file.size > 10 * 1024 * 1024:
+                raise forms.ValidationError('File size too large. Max 10MB.')
+        return file
     
     def save(self, commit=True):
         instance = super().save(commit=False)
@@ -68,6 +81,19 @@ class AdminDocumentUploadForm(forms.ModelForm):
             'title',
             Submit('submit', 'Upload Document', css_class='btn btn-primary mt-3')
         )
+
+    def clean_file(self):
+        file = self.cleaned_data.get('file')
+        if file:
+            # Check extension
+            ext = file.name.split('.')[-1].lower()
+            if ext not in ['pdf', 'jpg', 'jpeg', 'png']:
+                raise forms.ValidationError(f'Unsupported file extension: {ext}. Allowed: pdf, jpg, jpeg, png')
+            
+            # Check size (10MB)
+            if file.size > 10 * 1024 * 1024:
+                raise forms.ValidationError('File size too large. Max 10MB.')
+        return file
     
     def save(self, commit=True):
         instance = super().save(commit=False)

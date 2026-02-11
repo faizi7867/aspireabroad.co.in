@@ -1,0 +1,5 @@
+--- Cloudinary PDF Verification ---
+Uploading verify_raw.pdf using RawMediaCloudinaryStorage...
+Saved path: media/verify_raw_reatok.pdf
+URL: https://res.cloudinary.com/du1qa63v7/raw/upload/v1/media/verify_raw_reatok.pdf
+VERDICT: RawMediaCloudinaryStorage uses resource_type='raw'. CORRECT for PDFs.
